@@ -1,7 +1,6 @@
 
 import React,{useState} from 'react';
 import { render, waitFor, screen, fireEvent} from '@testing-library/react';
-// import Form from '../src/components/todo/form.js';
 import Form from '../todo/form.js';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event'
