@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {Button} from 'react-bootstrap';
 import {Card} from 'react-bootstrap';
-// import {Form} from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 
 
 function TodoForm({addItem}) {
@@ -36,7 +36,7 @@ let [item, setItem ] = useState({})
           <label>
           {/* <Form.Control type="email" placeholder="Enter email" /> */}
             <span >Difficulty Rating</span>
-            <input defaultValue="1" type="range" min="1" max="5" name="difficulty"  onChange={handleInputChange} />
+            <Form.Control defaultValue="1" type="range" min="1" max="5" name="difficulty"  onChange={handleInputChange} />
           </label>
           <label>
             <span>Assigned To</span>
