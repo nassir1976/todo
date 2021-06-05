@@ -23,7 +23,7 @@ let [item, setItem ] = useState({})
     return (
       <>
       <Card style={{ width: '25rem' }}>
-        <h4>Add To Do Item</h4>
+        <h4>  Add To Do Item</h4>
         <form onSubmit={handleSubmit}>
           <label>
             <span>To Do Item</span>
@@ -35,8 +35,8 @@ let [item, setItem ] = useState({})
           </label>
           <label>
           {/* <Form.Control type="email" placeholder="Enter email" /> */}
-            <span>Difficulty Rating</span>
-            <input defaultValue="1" type="range" min="1" max="5" name="difficulty" onChange={handleInputChange} />
+            <span >Difficulty Rating</span>
+            <input defaultValue="1" type="range" min="1" max="5" name="difficulty"  onChange={handleInputChange} />
           </label>
           <label>
             <span>Assigned To</span>
