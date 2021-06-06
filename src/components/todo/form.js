@@ -55,6 +55,4 @@ const [values, handleInputChange, handleSubmit] = useForm(addItem)
 export default TodoForm;
 
 
-/* <Navbar className="toDoCount" style={{color:"white"}}bg="dark" variant="dark" >
-To Do List Manager({list.filter(item => !item.complete).length})
-</Navbar> */
+

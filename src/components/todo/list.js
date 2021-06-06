@@ -11,7 +11,7 @@ function TodoList({ list, handleComplete }) {
           key={item._id}
         >
           < p className={`{item.complete}`}>{item.complete.toString()}</p>
-          <h4> Assigned {item.assignee}<span></span></h4>
+          <h4> Assigned to  {item.assignee}<span></span></h4>
            <p className="job">{item.text}</p> 
           <span> Difficulty:{item.difficulty}</span>
           
