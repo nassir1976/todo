@@ -5,8 +5,8 @@ import { Form } from 'react-bootstrap';
 import useForm from '../customHooks/useForm.js'
 
 
-function TodoForm({callback}) {
-const [handleInputChange, handleSubmit] = useForm(callback)
+function TodoForm({addItem}) {
+const [values, handleInputChange, handleSubmit] = useForm(addItem)
 
   // let [item, setItem ] = useState({})
   //   const handleInputChange = e => {

@@ -2,7 +2,7 @@ import { useState} from 'react'
 import axios from 'axios'
 
 
-const useAjax =( )=>{
+const useAjax =()=>{
   const [data, setData] = useState({})
   const request = async(api,method, input) =>{
     let newItem = await axios({
