@@ -15,9 +15,10 @@ const useAjax =()=>{
 
   }
   return[
-    data,
+    data.results,
     request
   ]
   
 }
 export default useAjax;
+
