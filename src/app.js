@@ -1,7 +1,8 @@
 import React from 'react';
 
 import ToDo from './components/todo/todo.js';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+ 
+ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
  

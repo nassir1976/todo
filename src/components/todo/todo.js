@@ -1,71 +1,125 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoForm from './form.js';
 import TodoList from './list.js';
-import {useEffect, useState } from 'react';
-import {Navbar} from 'react-bootstrap';
-
+import { Navbar } from 'react-bootstrap';
 import './todo.scss';
+import useAjax from '../customHooks/useAjax.js'
+import axios from 'axios';
 
-function ToDo (){
+const todoAPI = 'https://api-js401.herokuapp.com/api/v1/todo';
 
+export default function ToDo() {
+
+  const [data, request] = useAjax()
   const [list, setList] = useState([]);
-
-  const addItem = (item) => {
-    item._id = Math.random();
-    item.complete = false;
-    setList([...list, item]);
+  const _addItem = async (item) => {
+    item.due = new Date();
+    let input = {
+      text: item.text,
+      assignee: item.assignee,
+      difficulty: item.difficulty,
+      due: item.due,
+      _id: item._id
+    }
+    let newItem = await request(todoAPI, 'post', input);
+    setList([...list, newItem])
   };
 
-  const toggleComplete = id => {
+
+  //complete 
+  const _toggleComplete = async id => {
+
     let item = list.filter(i => i._id === id)[0] || {};
 
     if (item._id) {
-      item.complete = !item.complete;
-      setList(list.map(listItem => listItem._id === item._id ? item : listItem));
-    }
 
+      item.complete = !item.complete;
+
+      let url = `${todoAPI}/${id}`;
+      let input = {
+        text: item.text,
+        assignee: item.assignee,
+        difficulty: item.difficulty,
+        id: item.id,
+        complete: item.complete,
+        delete: item.delete
+      }
+      //update
+      let updatedItem = await request(url, 'put', input);
+      setList(list.map(listItem => listItem._id === item._id ? updatedItem : listItem));
+
+    }
   };
 
-    useEffect(() => {
-      setList(
-        [
-          { _id: 1, complete: false, text: 'Clean the Kitchen', difficulty: 3, assignee: 'Person A'},
-          { _id: 2, complete: false, text: 'Do the Laundry', difficulty: 2, assignee: 'Person A'},
-          { _id: 3, complete: false, text: 'Walk the Dog', difficulty: 4, assignee: 'Person B'},
-          { _id: 4, complete: true, text: 'Do Homework', difficulty: 3, assignee: 'Person C'},
-          { _id: 5, complete: false, text: 'Take a Nap', difficulty: 1, assignee: 'Person B'},
-          ]
-      )
-    }, []);
+  
 
-    useEffect(() => {
-      document.title = `To Do (${list.filter(item => !item.complete).length})`;
-    }, [list])
+  //remove
+  const removeItem = id => {
 
-    return (
-      <>
-        <header>
-          <Navbar className="header"style={{color:"white"}}bg="primary" variant="dark" >Home</Navbar>
-          <br></br>
-          <Navbar className="toDoCount" style={{color:"white"}}bg="dark" variant="dark" >
-              To Do List Manager({list.filter(item => !item.complete).length})
+    let item = list.filter(i => i._id === id)[0] || {};
+    if (item._id) {
+
+      let url = `${todoAPI}/${id}`;
+
+      axios.delete(url, item)
+        .then(removedItem => {
+
+          let temp = [...list];
+
+          for (let i = temp.length - 1; i >= 0; i--) {
+            if (removedItem.data._id === temp[i]._id) {
+              temp.splice(i, 1);
+            }
+          }
+          setList(temp);
+
+        })
+        .catch(console.error);
+    }
+  };
+
+
+
+  // when ever data changes use effect watch.....[list]
+  useEffect(() => {
+    document.title = `To Do (${list.filter(item => !item.complete).length})`;
+  }, [list])
+
+  const _getTodoItems = async () => {
+    let list = await request(todoAPI, 'get', {});
+
+    setList(list.results);
+  };
+
+  useEffect(() => {
+    _getTodoItems()
+  }, []);
+
+  return (
+    <>
+      <header>
+        <Navbar style={{ color: "white" }} bg="primary" variant="dark" className="header">Home</Navbar>
+        <br></br>
+        <Navbar className="toDoCount" style={{ color: "white" }} bg="dark" variant="dark" >
+          To Do List Manager({list.filter(item => !item.complete).length})
           </Navbar>
-        </header>
+      </header>
 
-        <section className="todo">
+      <section className="todo">
 
-          <div className="form">
-            <TodoForm addItem={addItem} />
-          </div>
+        <div className="formGroup">
+          <TodoForm callback={_addItem} />
+        </div>
 
-          <div className="listGroup">
-            <TodoList
-              list={list}
-              handleComplete={toggleComplete}
-            />
-          </div>
-        </section>
-      </>
-    );
-  }
-  export default ToDo;
+        <div className="listGroup">
+          <TodoList
+            list={list}
+            handleComplete={_toggleComplete}
+            handleDelete={removeItem}
+
+          />
+        </div>
+      </section>
+    </>
+  );
+};

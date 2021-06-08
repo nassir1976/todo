@@ -1,29 +1,31 @@
-import React,{useState} from 'react';
-import {Button} from 'react-bootstrap';
-import {Card} from 'react-bootstrap';
-import {Form} from 'react-bootstrap';
+import React from 'react';
+import { Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
+import useForm from '../customHooks/useForm.js'
 
 
-function TodoForm({addItem}) {
-  
-let [item, setItem ] = useState({})
-  const handleInputChange = e => {
-    setItem({item, [e.target.name]: e.target.value });
-  };
+function TodoForm({callback}) {
+  const [handleInputChange, handleSubmit] = useForm(callback)
 
- const  handleSubmit = (e) => {
-    e.preventDefault();
-    e.target.reset();
-    addItem(item);
-    
-    setItem({});
-  };
+  // let [item, setItem ] = useState({})
+  //   const handleInputChange = e => {
+  //     setItem({item, [e.target.name]: e.target.value });
+  //   };
 
-  
-    return (
-      <>
+  //  const  handleSubmit = (e) => {
+  //     e.preventDefault();
+  //     e.target.reset();
+  //     addItem(item);
+
+  //     setItem({});
+  //   };
+
+
+  return (
+    <>
       <Card style={{ width: '25rem' }}>
-        <h4>  Add To Do Item</h4>
+        <h4>Add To Do Item</h4>
         <form onSubmit={handleSubmit}>
           <label>
             <span>To Do Item</span>
@@ -34,25 +36,23 @@ let [item, setItem ] = useState({})
             />
           </label>
           <label>
-          {/* <Form.Control type="email" placeholder="Enter email" /> */}
-            <span >Difficulty Rating</span>
-            <Form.Control defaultValue="1" type="range" min="1" max="5" name="difficulty"  onChange={handleInputChange} />
+            {/* <Form.Control type="email" placeholder="Enter email" /> */}
+            <span>Difficulty Rating</span>
+            < Form.Control defaultValue="1" type="range" min="1" max="5" name="difficulty" onChange={handleInputChange} />
           </label>
           <label>
             <span>Assigned To</span>
             <input type="text" name="assignee" placeholder="Assigned To" onChange={handleInputChange} />
           </label>
-          <Button className="button" style={{color:"white"}} variant="primary" type="submit">Add Item</Button>
+          <Button className="button" style={{ color: "white" }} variant="primary" type="submit">Add Item</Button>
         </form>
-        </Card>
-      </>
-    );
-  }
+      </Card>
+    </>
+  );
+}
 
 
 export default TodoForm;
 
 
-/* <Navbar className="toDoCount" style={{color:"white"}}bg="dark" variant="dark" >
-To Do List Manager({list.filter(item => !item.complete).length})
-</Navbar> */
+
