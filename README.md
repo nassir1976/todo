@@ -39,3 +39,25 @@ You’ve been provided “starter code” for this phase. Copy the starter code 
            - When clicked, toggle the “complete” status of the item.
           - Items should be styled differently when complete/incomplete making their status visually obvious
 
+  
+  ### Lab: 32 Custom Hooks
+
+  #### Connecting the To Do Application to an external API and Database
+
+  #### Technical Requirements / Notes
+
+- On application start, display all of the to do items from the API/Database
+- When adding an item, issue a POST request to the API server
+- When marking items complete, issue a PUT request to the API server for the item
+- When deleting items, issue a DELETE request to the API server for the item
+
+
+### Hooks:
+  - Use the useEffect() hook to pre-load the To Do Items from the API on application start
+  - Replace the current form change/submit handlers with the useForm() custom hook to manage the “Add Item” form
+  - Create a new custom hook called useAjax() to abstract the API calls
+       - Using this hook in your component should make the calls to the server
+       - This hook should:
+            - Accept the URL to the API server, the REST method, and (when relevant) the BODY (JSON) of the request
+            - Handle CORS Settings, Content-Type, Headers and possibly authentication
+            - You should use axios to perform the actual AJAX calls
