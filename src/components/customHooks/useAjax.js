@@ -15,7 +15,7 @@ const useAjax =()=>{
 
   }
   return[
-    data.results,
+    data,
     request
   ]
   
