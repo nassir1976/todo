@@ -1,0 +1,27 @@
+ .progress-pill{
+  font-size: 0.8rem;
+  
+  &.pending{
+    background-color: green;
+    padding:2px 5px 2px 5px;
+    // color: hotpink;
+    color: white;
+    border:solid black;
+    border-radius: 15px;
+  }
+  
+}
+
+.complete-pill{
+  font-size: 1.0rem;
+  
+  &.complete{
+    background-color:red;
+    padding:2px 5px 2px 5px;
+    border:solid black ;
+    border-radius: 15px;
+    color: white;
+    
+  }
+  
+}
