@@ -5,6 +5,7 @@ import { Navbar } from 'react-bootstrap';
 import './todo.scss';
 import useAjax from '../customHooks/useAjax.js'
 import axios from 'axios';
+import SettingsProvider from '../../context/Seettings.js'
 
 const todoAPI = 'https://api-js401.herokuapp.com/api/v1/todo';
 
@@ -12,6 +13,7 @@ export default function ToDo() {
 
   const [data, request] = useAjax()
   const [list, setList] = useState([]);
+
   const _addItem = async (item) => {
     item.due = new Date();
     let input = {
@@ -27,7 +29,7 @@ export default function ToDo() {
 
 
   //complete 
-  const _toggleComplete = async id => {
+  const toggleComplete = async id => {
 
     let item = list.filter(i => i._id === id)[0] || {};
 
@@ -41,8 +43,8 @@ export default function ToDo() {
         assignee: item.assignee,
         difficulty: item.difficulty,
         id: item.id,
-        complete: item.complete,
-        delete: item.delete
+        completed: item.completed,
+        // delete: item.delete
       }
       //update
       let updatedItem = await request(url, 'put', input);
@@ -85,14 +87,14 @@ export default function ToDo() {
     document.title = `To Do (${list.filter(item => !item.complete).length})`;
   }, [list])
 
-  const _getTodoItems = async () => {
+  const getTodoItems = async () => {
     let list = await request(todoAPI, 'get', {});
 
     setList(list.results);
   };
 
   useEffect(() => {
-    _getTodoItems()
+    getTodoItems()
   }, []);
 
   return (
@@ -110,15 +112,17 @@ export default function ToDo() {
         <div className="formGroup">
           <TodoForm callback={_addItem} />
         </div>
+        <SettingsProvider>
 
         <div className="listGroup">
           <TodoList
             list={list}
-            handleComplete={_toggleComplete}
+            handleComplete={toggleComplete}
             handleDelete={removeItem}
 
           />
         </div>
+        </SettingsProvider>
       </section>
     </>
   );

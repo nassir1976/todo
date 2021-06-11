@@ -8,19 +8,6 @@ import useForm from '../customHooks/useForm.js'
 function TodoForm({callback}) {
   const [handleInputChange, handleSubmit] = useForm(callback)
 
-  // let [item, setItem ] = useState({})
-  //   const handleInputChange = e => {
-  //     setItem({item, [e.target.name]: e.target.value });
-  //   };
-
-  //  const  handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     e.target.reset();
-  //     addItem(item);
-
-  //     setItem({});
-  //   };
-
 
   return (
     <>

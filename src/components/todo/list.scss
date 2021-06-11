@@ -25,3 +25,50 @@
   }
   
 }
+
+.delete-button{
+  font-size: 1.2rem;
+  background-color: bisque;
+  width: 30px;
+  height:5px;
+  padding-bottom: 15px;
+ 
+ padding-bottom: 26px;
+ margin-left: 145px;
+
+  text-align: center;
+  // border-radius: 15px;
+
+}
+// .floated{
+//   // float:left;
+//   // margin-right:5px;
+//   display:inline-block;
+//   margin-right:5px;
+//   background-color: hotpink;
+// }
+
+.flex {
+  // display: flex;
+  // flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flexDirection: 'row',
+}
+
+.flex-child {
+  // display: flex;
+  float: left;
+  // flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+
+}
+
+.ItemsonPage{
+  width:185px;
+  height: 35px;
+  margin-left: 145px;
+
+}
