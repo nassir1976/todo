@@ -1,8 +1,11 @@
+
+import Card from 'react-bootstrap/Card'
 import React, { useState, useEffect, useContext } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Card from 'react-bootstrap/Card'
-import './list.scss'
 import { SettingsContext } from '../../context/Seettings.js'
+
+
+import './list.scss'
 
 function TodoList({ list, handleComplete, handleDelete }) {
 
@@ -13,7 +16,7 @@ function TodoList({ list, handleComplete, handleDelete }) {
   //handle completed
   const handleToggle = (e, settings) => {
     e.preventDefault()
-    settings.updateCompleted(settings.completed === 'true' ? 'false' : 'true')
+    settings.updateCompleted(!settings.complete)
     displayComplete()
 
   }
@@ -81,36 +84,11 @@ function TodoList({ list, handleComplete, handleDelete }) {
     }
   }
 
+  
+
   useEffect(() => {
     setNewList(list);
   }, [list])
-
-
-  //   return (
-  //     <ListGroup style={{ border: 'solid black', width: '65%', marginLeft: '20vw', marginTop: '2vh' }}>
-  //       {list.map(item => (
-  //         <Card key={item._id} style={{ width: '25rem', marginBottom: '4px' }}>
-  //           <Card.Body>
-  //             <Card.Title style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottom: '0.1px solid yellow', height: '2.5vh' }}>
-  //               <span className={item.complete === true ?  "complete complete-pill" : "pending progress-pill"} onClick={() => handleComplete(item._id)}>{ item.complete === true ? "Complete" : "Pending"}</span>
-  //               <span className="assigned-person">{item.assignee}</span>
-  //               <button className="delete-button" style={{ color: 'red' }} onClick={() => handleDelete(item._id)}>
-  //                 X
-  //               </button>
-  //             </Card.Title>
-
-  //             <Card.Text style={{ color: 'green', fontSize: '1.20rem' }}>
-  //               {item.text}
-  //             </Card.Text>
-  //             <Card.Link href="#"></Card.Link>
-  //             <Card.Text style={{ float: 'right', fontSize: '0.80rem' }}>Difficulty: {item.difficulty}</Card.Text>
-  //           </Card.Body>
-  //         </Card>
-  //       ))}
-  //     </ListGroup>
-  //   );
-
-  // }
 
 
   return (
@@ -119,47 +97,53 @@ function TodoList({ list, handleComplete, handleDelete }) {
         {settings => (
           <div>
             <button onClick={((e) => handleToggle(e, settings))}>Display Completed: {settings.completed}</button>
-            <form onSubmit={((e) => handleNumberItems(e, settings))}>
+            <form className="numberofitems" onSubmit={((e) => handleNumberItems(e, settings))}>
               <input type="number" name="numberItems" required placeholder={settings.numberItems} ></input>
               <button className="ItemsonPage" type="submit">Items on Page</button>
             </form>
-            <select onChange={((e) => handleSort(e, settings))}>
-              <option value="sort">Sort By</option>
+            <select className="sort " onChange={((e) => handleSort(e, settings))}>
+              <option  value="sort">Sort By</option>
               <option name="difficulty" value="difficulty">Difficulty</option>
               <option name="assignee" value="assignee">Assignee</option>
               <option name="text" value="text">Task</option>
             </select>
-            
+
           </div>
 
         )}
 
-
       </SettingsContext.Consumer>
-      {newList.map(item => (
-        <Card
-          className={`complete-${item.complete.toString()}`}
-          key={item._id}
-        >
-          <p className={`${item.complete}`}>{item.complete.toString()}</p>
-          <span className="assigned-person">{item.assignee}</span>
-          <button className="delete-button" style={{ color: 'red' }} onClick={() => handleDelete(item._id)}>
-                  X
-                </button>
-          <p onClick={() => handleComplete(item._id)} className="task">{item.text}</p>
-          <span className="difficulty">Difficulty: {item.difficulty}</span>
+      {list.map(item => (
+        <Card key={item._id} style={{ width: '25rem', marginBottom: '4px' }}>
+          <Card.Body>
+            <Card.Title style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottom: '', height: '2.5vh' }}>
+              <span className={item.complete === true ? "complete complete-pill" : "pending progress-pill"} onClick={() => handleComplete(item._id)}>{item.complete === true ? "Complete" : "Pending"}</span>
+              <div>
+              <span className="assigned-person">{item.assignee}</span>
+              </div>
+              <button className="delete-button" style={{ color: 'red' }} onClick={() => handleDelete(item._id)}>
+                X
+              </button>
+            </Card.Title>
+    
+            <Card.Text style={{ color: 'green', fontSize: '1.20rem' }}>
+            {item.text}
+            </Card.Text>
+            <Card.Link href="#"></Card.Link>
+            <Card.Text style={{ float: 'right', fontSize: '0.80rem' }}>Difficulty: {item.difficulty}</Card.Text>
+          </Card.Body>
+
         </Card>
       ))}
-    <div className="flex">
-      <button  className="flex-child" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',color:"red", border: '0.1px solid black', height: '2.5vh'  }} onClick={switchPage }>Previous</button> 
-      <button  className="flex-child"style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', color:"red", alignItems: 'center', border:" 0.1px solid black" , height: '2.5vh'  }} onClick={switchPage}>Next</button>
+      <div>
+        <button className="flex-child" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', color: "red", border: '0.1px solid black', height: '2.5vh' }} onClick={switchPage}>Previous</button>
+        <button className="flex-child" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', color: "red", alignItems: 'center', border: " 0.1px solid black", height: '2.5vh' }} onClick={switchPage}>Next</button>
       </div>
 
-
     </ListGroup>
+
   );
+
 }
 
 export default TodoList;
-
-

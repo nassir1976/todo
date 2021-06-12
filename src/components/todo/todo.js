@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import TodoForm from './form.js';
 import TodoList from './list.js';
 import { Navbar } from 'react-bootstrap';
@@ -6,6 +6,7 @@ import './todo.scss';
 import useAjax from '../customHooks/useAjax.js'
 import axios from 'axios';
 import SettingsProvider from '../../context/Seettings.js'
+
 
 const todoAPI = 'https://api-js401.herokuapp.com/api/v1/todo';
 
@@ -43,7 +44,9 @@ export default function ToDo() {
         assignee: item.assignee,
         difficulty: item.difficulty,
         id: item.id,
-        completed: item.completed,
+        complete: item.complete,
+        data:data,
+        
         // delete: item.delete
       }
       //update
@@ -95,7 +98,7 @@ export default function ToDo() {
 
   useEffect(() => {
     getTodoItems()
-  }, []);
+  });
 
   return (
     <>
@@ -112,6 +115,7 @@ export default function ToDo() {
         <div className="formGroup">
           <TodoForm callback={_addItem} />
         </div>
+
         <SettingsProvider>
 
         <div className="listGroup">
