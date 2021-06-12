@@ -61,3 +61,16 @@ You’ve been provided “starter code” for this phase. Copy the starter code 
             - Accept the URL to the API server, the REST method, and (when relevant) the BODY (JSON) of the request
             - Handle CORS Settings, Content-Type, Headers and possibly authentication
             - You should use axios to perform the actual AJAX calls
+
+
+ ### Lab: 33 Context API
+
+ #### Add some configuration settings to the application
+
+  - In this phase, we’ll be adding some top-level settings for the application, so that the user can make some display choices that the app will use by default.
+
+  ### Phase 3 Requirements
+   - As a user, I would like to see my To Do List Items a few at a time so that I don’t have to wade through them all
+   - As a user, I would like my default view to only be “Incomplete” Items so that I can quickly determine what I have to do.
+  - As a user, I would like my list sorted by difficulty so that I can more easily prioritize
+   - As a user, I would like the option to change my default preferences with regards to how many Items I see per page, which items are filtered, and how they are sorted
