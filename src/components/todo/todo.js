@@ -6,7 +6,9 @@ import './todo.scss';
 import useAjax from '../customHooks/useAjax.js'
 import axios from 'axios';
 import SettingsProvider from '../../context/Seettings.js'
-
+import AuthProvider from '../auth/authProvider.js'
+import Login from '../auth/login.js';
+import Auth from '../auth/auth.js';
 
 const todoAPI = 'https://api-js401.herokuapp.com/api/v1/todo';
 
@@ -102,19 +104,25 @@ export default function ToDo() {
 
   return (
     <>
+    <AuthProvider>
       <header>
-        <Navbar style={{ color: "white" }} bg="primary" variant="dark" className="header">Home</Navbar>
+        <Navbar style={{ color: "white" }} bg="primary" variant="dark" className="header">Home
+        <login/>
+        </Navbar>
         <br></br>
+        </header>
+        <auth capability ="read">
         <Navbar className="toDoCount" style={{ color: "white" }} bg="dark" variant="dark" >
           To Do List Manager({list.filter(item => !item.complete).length})
           </Navbar>
-      </header>
+     
 
       <section className="todo">
-
+      <auth capability ="creat">
         <div className="formGroup">
           <TodoForm callback={_addItem} />
         </div>
+        </auth>
 
         <SettingsProvider>
 
@@ -128,6 +136,8 @@ export default function ToDo() {
         </div>
         </SettingsProvider>
       </section>
+      </auth>
+      </AuthProvider>
     </>
   );
 };
