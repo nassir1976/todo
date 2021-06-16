@@ -1,24 +1,36 @@
-import { useState} from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
+// import { options } from 'superagent'
 
 
-const useAjax =()=>{
-  const [data, setData] = useState({})
-  const request = async(api,method, input) =>{
-    let newItem = await axios({
-      method:method,
-      url:api,
-      data:input,
-    })
-    setData(newItem.data)
-    return newItem.data
+const useAjax = () => {
+  const [options, request] = useState({})
+  const [response, setResponse] = useState({})
 
+  useEffect(() => {
+    async function getData(){
+      if(!options.url){
+      return
+    }
+    try {
+      let response = await axios({
+        data: options.input,
+        url: options.url,
+        method: options.method,
+        mode: options.mode,
+        headers: options.headers,
+        validateStatus: options.validateStatus,
+
+
+      })
+      setResponse(response.data)
+    } catch (error) {
+    }
   }
-  return[
-    data,
-    request
-  ]
-  
+    getData()
+ },[options])
+return [response, request]
 }
+
 export default useAjax;
 

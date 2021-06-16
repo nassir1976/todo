@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 //create the context
 export const SettingsContext = React.createContext();
 

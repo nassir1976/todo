@@ -1,36 +1,43 @@
-import React, {useState, useContext} from "react";
+import React, {useState,useContext} from 'react';
 
+import useForm from '../customHooks/useForm.js';
 import {If, Then, Else} from 'react-if';
+import {AuthContext} from '../../context/AuthProvider.js';
 
-import {LoginContext} from './authProvider.js';
+
+
+
 
 function Login() {
 
-  const [user, setUser] = useState({});
-  const userContext = useContext(LoginContext);
+  const [handleChange, handleSubmit] = useForm(handleLogin);
+  const context = useContext(AuthContext);
 
-  const handleChange = (e) => {
-    setUser( {...user, [e.target.name]: e.target.value})
+  // const handleChange = (e) => {
+  //   setUser( {...user, [e.target.name]: e.target.value})
+  // }
+  function handleLogin(userDetails){
+    context.login(userDetails.username,userDetails.password)
   }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // send the user object to: context
-    userContext.login(user);
-  }
-
   
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // send the user object to: context
+  //   context.login(user);
+  // }
+
+
   return (
-    <If condition={userContext.isLoggedIn}>
+    <If condition={context.token}>
       <Then>
-        <button onClick={userContext.logout}>Log Out</button>
+        <button onClick={context.logout}>Log Out</button>
       </Then>
       <Else>
-        <form onSubmit={handleSubmit}>
+        <form  className="form"  onSubmit={handleSubmit}>
           <input placeholder="username" name="username" onChange={handleChange} />
           <input name="password" type="password" onChange={handleChange} />
-          <button>Login</button>
+          <button  name="password">Login</button>
         </form>
       </Else>
     </If>
