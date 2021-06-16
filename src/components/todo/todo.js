@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoForm from './form.js';
 import TodoList from './list.js';
 import { Navbar } from 'react-bootstrap';
@@ -6,31 +6,72 @@ import './todo.scss';
 import useAjax from '../customHooks/useAjax.js'
 import axios from 'axios';
 import SettingsProvider from '../../context/Seettings.js'
+import AuthProvider from '../../context/AuthProvider.js'
+import Login from '../auth/login.js';
+import Auth from '../auth/Auth.js';
+import superagent from 'superagent';
 
 
 const todoAPI = 'https://api-js401.herokuapp.com/api/v1/todo';
 
 export default function ToDo() {
 
-  const [data, request] = useAjax()
+
+  const [request, response] = useAjax()
   const [list, setList] = useState([]);
+  // const [data, setData] = useState([])
 
-  const _addItem = async (item) => {
-    item.due = new Date();
-    let input = {
-      text: item.text,
-      assignee: item.assignee,
-      difficulty: item.difficulty,
-      due: item.due,
-      _id: item._id
+  useEffect(() => {
+    if (response.results) {
+      response.results && setList(response.results)
+    } else {
+      getItems()
     }
-    let newItem = await request(todoAPI, 'post', input);
-    setList([...list, newItem])
-  };
+  }, [response]);
+  useEffect(() => {
+    document.title = `To Do List:${list.filter(item => !item.complete)}.length`;
+  }, [list])
 
+  console.log(response)
 
-  //complete 
-  const toggleComplete = async id => {
+  //==========getitem==========//
+
+  const getItems = async () => {
+    let request = await axios({
+      // const options = {
+      url: todoAPI,
+      method: 'get',
+      mode: 'cors',
+      headers:{'content-Type':'application/json'},
+      // }
+      // response(options)
+    })
+    let data = request.data.results
+    setList(data)
+  }
+
+  useEffect(() => {
+    getItems()
+  }, []);
+
+// =============postItem==== //
+  const addItem = async (input) => {
+    let request = await axios({
+      url: todoAPI,
+      method: 'post',
+      mode: 'cors',
+        headers:{'content-Type':'application/json'},
+      data:input
+      // response(options)
+    })
+    getItems()
+    return request
+  }
+
+  // console.log(request)
+
+  //complete =========or putitem===
+  const toggleComplete = id => {
 
     let item = list.filter(i => i._id === id)[0] || {};
 
@@ -38,96 +79,80 @@ export default function ToDo() {
 
       item.complete = !item.complete;
 
-      let url = `${todoAPI}/${id}`;
-      let input = {
-        text: item.text,
-        assignee: item.assignee,
-        difficulty: item.difficulty,
-        id: item.id,
-        complete: item.complete,
-        data:data,
-        
-        // delete: item.delete
+      const url = `${todoAPI}/${id}`;
+      // const input = {
+      //   text: item.text,
+      //   assignee: item.assignee,
+      //   difficulty: item.difficulty,
+      //   id: item.id,
+      //   complete: item.complete,
+
+      // }
+
+      const options = {
+        url: url,
+        method: 'put',
+        mode: 'cors',
+        headers: { 'content-Type': 'application/json' },
+        data: { complete: !item.complete },
       }
-      //update
-      let updatedItem = await request(url, 'put', input);
-      setList(list.map(listItem => listItem._id === item._id ? updatedItem : listItem));
+      response(options)
 
     }
   };
-
   
+  //=============remove==========//
 
-  //remove
-  const removeItem = id => {
+  const removeItem = async id => {
+    let request = await axios({
+       url : `${todoAPI}/${id}`,
+        method: 'delete',
+        mode: 'cors',
+        headers: { 'content-Type': 'application/json' },
 
-    let item = list.filter(i => i._id === id)[0] || {};
-    if (item._id) {
-
-      let url = `${todoAPI}/${id}`;
-
-      axios.delete(url, item)
-        .then(removedItem => {
-
-          let temp = [...list];
-
-          for (let i = temp.length - 1; i >= 0; i--) {
-            if (removedItem.data._id === temp[i]._id) {
-              temp.splice(i, 1);
-            }
-          }
-          setList(temp);
-
-        })
-        .catch(console.error);
-    }
-  };
-
-
-
-  // when ever data changes use effect watch.....[list]
-  useEffect(() => {
-    document.title = `To Do (${list.filter(item => !item.complete).length})`;
-  }, [list])
-
-  const getTodoItems = async () => {
-    let list = await request(todoAPI, 'get', {});
-
-    setList(list.results);
-  };
-
-  useEffect(() => {
-    getTodoItems()
-  });
-
+    })
+    getItems()
+    return request;
+  }
+  
   return (
     <>
-      <header>
-        <Navbar style={{ color: "white" }} bg="primary" variant="dark" className="header">Home</Navbar>
-        <br></br>
-        <Navbar className="toDoCount" style={{ color: "white" }} bg="dark" variant="dark" >
-          To Do List Manager({list.filter(item => !item.complete).length})
+      <AuthProvider>
+        <header>
+          <Navbar style={{ color: "white" }} bg="primary" variant="dark" className="headerOne">
+            Home
+
+            <Login />
+
           </Navbar>
-      </header>
-
-      <section className="todo">
-
-        <div className="formGroup">
-          <TodoForm callback={_addItem} />
-        </div>
-
-        <SettingsProvider>
-
-        <div className="listGroup">
-          <TodoList
-            list={list}
-            handleComplete={toggleComplete}
-            handleDelete={removeItem}
-
-          />
-        </div>
-        </SettingsProvider>
-      </section>
+          <br></br>
+        </header>
+        <Auth capability="read">
+          <Navbar className="toDoCount" style={{ color: "white" }} bg="dark" variant="dark" >
+            To Do List Manager({list.filter(item => !item.complete).length})
+          </Navbar>
+          <section className="todo">
+            
+            <Auth capability="create">
+              <div className="formGroup">
+                 <TodoForm callback={addItem} /> 
+                 
+                {/* <TodoForm addItem={postItems} */}
+                
+              </div>
+            </Auth>
+            <SettingsProvider>
+              <div className="listGroup">
+                <TodoList
+                  list={list}
+                  handleComplete={toggleComplete}
+                  handleDelete={removeItem}
+                />
+              </div>
+            </SettingsProvider>
+          </section>
+        </Auth>
+      </AuthProvider>
     </>
   );
 };
