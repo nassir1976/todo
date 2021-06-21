@@ -1,4 +1,5 @@
 {
+  "homepage": "http://nassir1976.github.io/todo",
   "name": "todo",
   "version": "1.0.0",
   "description": "",
@@ -25,6 +26,7 @@
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^13.1.9",
+    "gh-pages": "^3.2.3",
     "jest-environment-jsdom": "^27.0.3",
     "jest-environment-jsdom-sixteen": "^2.0.0"
   },
@@ -32,7 +34,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [

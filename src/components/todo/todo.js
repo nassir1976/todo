@@ -9,7 +9,7 @@ import SettingsProvider from '../../context/Seettings.js'
 import AuthProvider from '../../context/AuthProvider.js'
 import Login from '../auth/login.js';
 import Auth from '../auth/Auth.js';
-import superagent from 'superagent';
+
 
 
 const todoAPI = 'https://api-js401.herokuapp.com/api/v1/todo';

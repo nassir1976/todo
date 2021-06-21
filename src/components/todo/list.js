@@ -40,7 +40,7 @@ function TodoList({ list, handleComplete, handleDelete }) {
     if (e.target.innerText === 'previous') {
       if (page > 1) {
         setPage(page - 1)
-        console.log('pagedes', page)
+        console.log('pagedes.....', page)
       }
     } else {
       setPage(page + 1)
