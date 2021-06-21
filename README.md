@@ -1,4 +1,5 @@
 # todo
+[Diploy Link](https://nassir1976.github.io/todo/)
 
 ### LAB - Hooks API
 
@@ -74,3 +75,32 @@ You’ve been provided “starter code” for this phase. Copy the starter code 
    - As a user, I would like my default view to only be “Incomplete” Items so that I can quickly determine what I have to do.
   - As a user, I would like my list sorted by difficulty so that I can more easily prioritize
    - As a user, I would like the option to change my default preferences with regards to how many Items I see per page, which items are filtered, and how they are sorted
+
+
+https://nassir1976.github.io/todo/
+
+
+### Lab: 34 Login  and Auth 
+
+- Adding security and access controls to the application.
+
+
+### Phase 4 Requirements
+
+In Phase 4, we’d like to extend the functionality of the application by requiring users be logged in to view items and also restrict access based on user type. The user stories from Phases 1, 2 and 3 remain unchanged. For this phase, we are now adding the following new user stories.
+
+- As a user, I want to provide a way for other users to create new accounts
+- As a user, I want to provide a way for all users to login to their account
+- As a user, I want to make sure that my To Do items are only viewable to users that have logged in with a valid account.
+- As a user, I want to ensure that only fellow users that are allowed to “create”, based on their user type, can add new To Do Items
+- As a user, I want to ensure that only fellow users that are allowed to “update”, based on their user type, can mark To Do Items complete
+- As a user, I want to ensure that only fellow users that are allowed to “delete”, based on their user type, can delete new To Do Items
+
+
+### Note: The deployed API server has the following user accounts (username:password) that you can use to login as a user with varying permissions
+
+- admin:ADMIN (create, read, update, delete)
+- editor:EDITOR (create, read, update)
+- user:USER (read)
+
+[Diploy Link](https://nassir1976.github.io/todo/)
