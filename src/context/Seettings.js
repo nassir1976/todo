@@ -9,6 +9,7 @@ function SettingsProvider(props) {
   let [sort, setSort] = useState('difficulty');
   let [completed, setCompleted] = useState('true');
   let[numberItems, setNumberItems] = useState(4);
+  // let[pagination,setPagination]=useState(0)
   
   const state = {
       sort,
@@ -17,6 +18,7 @@ function SettingsProvider(props) {
       updateSort: setSort,
       updateCompleted: setCompleted,
       updateNumber: setNumberItems,
+      // pagination:setPagination,
     }
 
   useEffect(() =>{ 
@@ -26,6 +28,10 @@ function SettingsProvider(props) {
   useEffect(() =>{ 
     console.log(numberItems);
   }, [numberItems])
+
+  // useEffect(() =>{ 
+  //   console.log(pagination);
+  // }, [pagination])
 
     return(
       <SettingsContext.Provider value={state}>

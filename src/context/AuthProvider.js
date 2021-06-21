@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import jwt from 'jsonwebtoken';
 import useAjax from '../components/customHooks/useAjax.js';
 import cookie from 'react-cookies';
-import superagent from 'superagent';
-import TodoForm from '../components/todo/form.js';
+
+// import TodoForm from '../components/todo/form.js';
 
 
 
@@ -25,7 +25,7 @@ function AuthProvider(props) {
       setToken(response.token);
       cookie.save('auth', response.token);
     }
-  }, [response]);
+  },[response]);
 
   useEffect(() => {
     let token = cookie.load('auth');
